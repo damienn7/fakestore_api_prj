@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import Navbar from './components/Navbar.vue'
+import Navbar from "./components/Navbar.vue";
+
+const onOpenCart = () => {
+  console.log("Panier ouvert");
+};
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <!-- Navbar -->
+    <!-- Navbar full width -->
     <Navbar
       title="ShopMinimal"
       :has-items="true"
@@ -12,22 +16,9 @@ import Navbar from './components/Navbar.vue'
     />
 
     <!-- Contenu principal -->
-    <main class="flex-1 bg-gray-50 p-6">
-      <h1 class="text-2xl font-bold">
-        Home – UI Statique
-      </h1>
-      <p class="text-gray-500 mt-2">
-        Contenu à venir…
-      </p>
+    <main class="flex-1 px-6 py-10">
+      <h1 class="text-3xl font-bold mb-2">Home – UI Statique</h1>
+      <p class="text-slate-500">Contenu à venir…</p>
     </main>
   </div>
 </template>
-
-<script setup lang="ts">
-const onOpenCart = () => {
-  console.log('Panier ouvert')
-}
-</script>
-
-<style scoped>
-</style>

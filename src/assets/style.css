@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* Reset layout Vite */
+html,
+body,
+#app {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
