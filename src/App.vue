@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Navbar from "./components/Navbar.vue";
+import Cards from "./components/Cards.vue";
 
 const onOpenCart = () => {
   console.log("Panier ouvert");
@@ -8,7 +9,7 @@ const onOpenCart = () => {
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <!-- Navbar full width -->
+    <!-- Navbar -->
     <Navbar
       title="ShopMinimal"
       :has-items="true"
@@ -16,9 +17,8 @@ const onOpenCart = () => {
     />
 
     <!-- Contenu principal -->
-    <main class="flex-1 px-6 py-10">
-      <h1 class="text-3xl font-bold mb-2">Home – UI Statique</h1>
-      <p class="text-slate-500">Contenu à venir…</p>
+    <main class="flex-1 flex flex-col overflow-hidden">
+      <Cards />
     </main>
   </div>
 </template>
