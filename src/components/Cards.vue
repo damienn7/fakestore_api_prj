@@ -36,20 +36,25 @@ const products: Product[] = [
         <div
           v-for="product in products"
           :key="product.id"
-          class="group flex flex-col bg-white rounded-xl border border-slate-100
+          class="group flex flex-col bg-white rounded-xl
+                 border border-slate-100
                  shadow-[0_2px_8px_rgba(0,0,0,0.04)]
                  hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)]
+                 hover:-translate-y-1
                  transition-all duration-300 overflow-hidden"
         >
           <div class="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
             <div
-              class="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+              class="w-full h-full bg-cover bg-center
+                     transition-transform duration-500
+                     group-hover:scale-110"
               :style="{ backgroundImage: `url(${product.image})` }"
             ></div>
 
             <div
               class="absolute top-3 right-3 bg-white/90 backdrop-blur
-                     rounded-full px-2 py-1 text-xs font-bold text-slate-800"
+                     rounded-full px-2 py-1 text-xs font-bold
+                     text-slate-800 shadow-sm"
             >
               ${{ product.price }}
             </div>
@@ -63,13 +68,14 @@ const products: Product[] = [
               {{ product.title }}
             </h3>
 
-            <p class="text-slate-500 text-sm line-clamp-2">
+            <p class="text-slate-500 text-sm leading-relaxed line-clamp-2">
               {{ product.description }}
             </p>
 
             <button
               class="mt-auto w-full h-10 rounded-lg bg-primary
-                     hover:bg-blue-600 text-white text-sm font-medium"
+                     hover:bg-blue-600 text-white text-sm font-medium
+                     transition-colors shadow-sm shadow-blue-200"
             >
               Acheter 🛒
             </button>
