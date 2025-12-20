@@ -13,10 +13,20 @@
     </div>
 
     <div class="flex items-center gap-6">
-      <!-- actions -->
+      <label class="hidden sm:flex">
+        <input
+          v-model="search"
+          type="text"
+          placeholder="Search products..."
+          class="border rounded-lg px-3 h-9 text-sm"
+        />
+      </label>
     </div>
   </header>
 </template>
 
 <script setup>
+import { ref } from "vue";
+
+const search = ref("");
 </script>
