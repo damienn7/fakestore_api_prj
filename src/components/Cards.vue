@@ -2,7 +2,16 @@
 <!-- Auteur Thomas et Rayan -->
 <script setup lang="ts">
 import { ref } from "vue";
+import { fetchProducts } from "@/backend/service/productapi";
+import type { Product } from "@/backend/type/products";
 
+const viewMode = ref<"grid" | "list">("grid");
+// fetch des produits utilisser dans le fichier 
+const products = ref<Product[]>([]);
+
+onMounted(async () => {
+  products.value = await fetchProducts();
+});
 
 const viewMode = ref<"grid" | "list">("grid");
 </script>
