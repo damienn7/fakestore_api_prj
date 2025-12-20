@@ -47,6 +47,7 @@ onMounted(async () => {
       Chargement des produits…
     </div>
 
+    <!-- GRID -->
     <div v-else-if="viewMode === 'grid'" class="flex-1 overflow-y-auto p-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
         <div
@@ -55,15 +56,29 @@ onMounted(async () => {
           class="bg-white rounded-xl border border-slate-100 p-4"
         >
           <img :src="product.image" class="h-40 w-full object-contain mb-3" />
-          <h3 class="font-bold text-[#0d141c] line-clamp-1">{{ product.title }}</h3>
+          <h3 class="font-bold text-[#0d141c]">{{ product.title }}</h3>
           <p class="text-sm text-slate-500 line-clamp-2">{{ product.description }}</p>
           <p class="mt-2 font-bold">${{ product.price }}</p>
         </div>
       </div>
     </div>
 
-    <div v-else class="flex-1 flex items-center justify-center text-slate-400">
-      List view à venir…
+    <!-- LIST -->
+    <div v-else class="flex-1 overflow-y-auto p-6">
+      <div class="flex flex-col gap-4 pb-10">
+        <div
+          v-for="product in products"
+          :key="product.id"
+          class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-100"
+        >
+          <img :src="product.image" class="w-24 h-24 object-contain bg-slate-50 rounded" />
+          <div class="flex-1">
+            <h3 class="font-bold text-[#0d141c]">{{ product.title }}</h3>
+            <p class="text-sm text-slate-500 line-clamp-2">{{ product.description }}</p>
+          </div>
+          <p class="font-bold">${{ product.price }}</p>
+        </div>
+      </div>
     </div>
   </section>
 </template>
