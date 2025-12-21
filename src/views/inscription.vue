@@ -11,25 +11,26 @@
       </div>
 
       <form class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            class="w-full h-11 rounded-lg border border-slate-300 px-3"
-          />
-        </div>
+        <input
+          v-model="email"
+          type="email"
+          placeholder="Email"
+          class="w-full h-11 rounded-lg border border-slate-300 px-3"
+        />
 
-        <div>
-          <label class="block text-sm font-medium text-slate-700 mb-1">
-            Mot de passe
-          </label>
-          <input
-            type="password"
-            class="w-full h-11 rounded-lg border border-slate-300 px-3"
-          />
-        </div>
+        <input
+          v-model="password"
+          type="password"
+          placeholder="Mot de passe"
+          class="w-full h-11 rounded-lg border border-slate-300 px-3"
+        />
+
+        <input
+          v-model="confirmPassword"
+          type="password"
+          placeholder="Confirmation"
+          class="w-full h-11 rounded-lg border border-slate-300 px-3"
+        />
 
         <button
           class="w-full h-11 rounded-lg bg-blue-600 text-white font-medium"
@@ -42,4 +43,9 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
+
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 </script>
