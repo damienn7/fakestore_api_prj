@@ -2,7 +2,7 @@
 // Composable pour la gestion du panier
 // Version 1.0.0
 
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import type { CartItem } from "@/backend/type/shop";
 
 const cartItems = ref<CartItem[]>([]);
@@ -49,9 +49,13 @@ export function useCart() {
   }
 
   return {
-    cartItems,
+    cartItems: computed(() => cartItems.value),
+    itemCount,
+    isEmpty,
+    hasItems,
     addToCart,
     removeFromCart,
-    clearCart
+    clearCart,
+    updateQuantity
   };
 }
