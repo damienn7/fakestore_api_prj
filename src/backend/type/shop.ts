@@ -41,4 +41,16 @@ export interface CartRequest {
   products: CartItem[];
 }
 
+/* =========================
+   UTILITAIRES
+========================= */
+
+/**
+ * Total du panier
+ */
+export interface CartTotal {
+  totalItems: number;
+  totalPrice: number;
+}
+
 
