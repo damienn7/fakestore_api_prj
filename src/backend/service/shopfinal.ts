@@ -28,8 +28,9 @@ export async function addcards(){
 
 }
 
-export async function getsingle(){
-
+export async function getsingle(id: number){
+  const response = await fetch(`${API_URL}/${id}`);
+  return await response.json();
 }
 export async function updatecards(){
     
