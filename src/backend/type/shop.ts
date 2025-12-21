@@ -4,14 +4,24 @@
    PANIER
 ========================= */
 
-import type { ProductFR } from "./products";
+import type { ProductFR, Product } from "./products";
 
 /**
- * Produit présent dans le panier
+ * Produit présent dans le panier (format FakeStoreAPI)
  */
 export interface CartItem {
   productId: number;
   quantity: number;
-  product?: ProductFR; // optionnel : utile pour afficher les infos
 }
+
+/**
+ * Panier utilisateur (format FakeStoreAPI)
+ */
+export interface Cart {
+  id: number;
+  userId: number;
+  date: string;
+  products: CartItem[];
+}
+
 
