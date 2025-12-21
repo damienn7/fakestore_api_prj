@@ -3,7 +3,8 @@
 // Version 1.0.0
 
 import { ref, computed } from "vue";
-import type { CartItem } from "@/backend/type/shop";
+import type { CartItem, CartItemWithDetails } from "@/backend/type/shop";
+import { fetchProductById } from "@/backend/service/productapi";
 
 const cartItems = ref<CartItem[]>([]);
 
@@ -46,6 +47,27 @@ export function useCart() {
       item.quantity = quantity;
       saveToStorage();
     }
+  }
+
+  async function getCartItemsWithDetails(): Promise<CartItemWithDetails[]> {
+    const itemsWithDetails: CartItemWithDetails[] = [];
+
+    for (const item of cartItems.value) {
+      const product = await fetchProductById(item.productId);
+
+      if (product) {
+        itemsWithDetails.push({
+          productId: item.productId,
+          quantity: item.quantity,
+          title: product.title,
+          price: product.price,
+          image: product.image,
+          category: product.category,
+        });
+      }
+    }
+
+    return itemsWithDetails;
   }
 
   return {
