@@ -27,8 +27,10 @@ const product = ref<Product | null>(null);
 const isLoading = ref(false);
 const hasError = ref(false);
 
+const { addToCart } = useCart();
+
 /**
- * Charger le produit quand la popup s’ouvre
+ * Charger le produit quand la popup s'ouvre
  */
 watch(
   () => props.open,
