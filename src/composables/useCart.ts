@@ -23,8 +23,22 @@ export function useCart() {
     saveToStorage();
   }
 
+  function removeFromCart(productId: number) {
+    cartItems.value = cartItems.value.filter(
+      (item) => item.productId !== productId
+    );
+    saveToStorage();
+  }
+
+  function clearCart() {
+    cartItems.value = [];
+    saveToStorage();
+  }
+
   return {
     cartItems,
-    addToCart
+    addToCart,
+    removeFromCart,
+    clearCart
   };
 }
