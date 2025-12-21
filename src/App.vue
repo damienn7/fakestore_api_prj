@@ -8,6 +8,7 @@ const onOpenCart = () => {
 </script>
 
 <template>
+  <router-view />
   <div class="min-h-screen flex flex-col">
     <!-- Navbar -->
     <Navbar

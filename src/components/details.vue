@@ -1,55 +1,83 @@
 <!-- Auteur : Thomas et Rayan -->
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { ref, onMounted, watch } from "vue";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
 
-const route = useRoute();
-const router = useRouter();
+/**
+ * Props
+ */
+const props = defineProps<{
+  productId: number | null;
+  open: boolean;
+}>();
+
+/**
+ * Emit
+ */
+const emit = defineEmits<{
+  (e: "close"): void;
+}>();
 
 const product = ref<Product | null>(null);
-const isLoading = ref(true);
+const isLoading = ref(false);
 const hasError = ref(false);
 
-onMounted(async () => {
-  try {
-    const id = Number(route.params.id);
+/**
+ * Charger le produit quand la popup s’ouvre
+ */
+watch(
+  () => props.open,
+  async (isOpen) => {
+    if (!isOpen || props.productId === null) return;
 
-    if (isNaN(id)) throw new Error();
+    isLoading.value = true;
+    hasError.value = false;
 
-    product.value = await fetchProductById(id);
-    if (!product.value) throw new Error();
-  } catch {
-    hasError.value = true;
-  } finally {
-    isLoading.value = false;
+    try {
+      product.value = await fetchProductById(props.productId);
+      if (!product.value) throw new Error();
+    } catch {
+      hasError.value = true;
+    } finally {
+      isLoading.value = false;
+    }
   }
-});
+);
 </script>
 
 <template>
-  <section class="min-h-screen bg-[#FAFAFA] p-6">
-    <button
-      @click="router.back()"
-      class="mb-6 text-sm text-slate-500 hover:text-slate-800"
-    >
-      ← Retour
-    </button>
-
-    <div v-if="isLoading" class="text-center text-slate-400">
-      Chargement du produit…
-    </div>
-
-    <div v-else-if="hasError" class="text-center text-red-500">
-      Impossible de charger le produit
-    </div>
-
+  <div v-if="open" class="fixed inset-0 z-50">
+    <!-- Overlay -->
     <div
-      v-else-if="product"
-      class="max-w-4xl mx-auto bg-white rounded-xl p-6"
+      class="absolute inset-0 bg-black/40"
+      @click="emit('close')"
+    />
+
+    <!-- Modal -->
+    <div
+      class="relative z-50 max-w-4xl mx-auto mt-20 bg-white rounded-xl p-6"
     >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <!-- Close -->
+      <button
+        @click="emit('close')"
+        class="absolute top-4 right-4 text-slate-500 hover:text-black"
+      >
+        ✕
+      </button>
+
+      <!-- Loading -->
+      <div v-if="isLoading" class="text-center text-slate-400">
+        Chargement du produit…
+      </div>
+
+      <!-- Error -->
+      <div v-else-if="hasError" class="text-center text-red-500">
+        Impossible de charger le produit
+      </div>
+
+      <!-- Content -->
+      <div v-else-if="product" class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <img
           :src="product.image"
           :alt="product.title"
@@ -75,5 +103,5 @@ onMounted(async () => {
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>

@@ -31,7 +31,7 @@ onMounted(async () => {
 
       <!-- Toggle icons -->
       <div class="hidden md:flex h-9 items-center rounded-lg bg-slate-200 p-1 gap-1">
-        <!-- GRID ICON -->
+        <!-- Grid -->
         <button
           @click="viewMode = 'grid'"
           :class="[
@@ -40,22 +40,15 @@ onMounted(async () => {
               ? 'bg-white shadow-sm text-primary'
               : 'text-slate-500 hover:text-slate-700'
           ]"
-          title="Vue grille"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M4 6h6v6H4V6zm10 0h6v6h-6V6zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
           </svg>
         </button>
 
-        <!-- LIST ICON -->
+        <!-- List -->
         <button
           @click="viewMode = 'list'"
           :class="[
@@ -64,16 +57,9 @@ onMounted(async () => {
               ? 'bg-white shadow-sm text-primary'
               : 'text-slate-500 hover:text-slate-700'
           ]"
-          title="Vue liste"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="w-4 h-4"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round"
               d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -92,10 +78,11 @@ onMounted(async () => {
     <!-- GRID VIEW -->
     <div v-else-if="viewMode === 'grid'" class="flex-1 overflow-y-auto p-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
-        <div
+        <router-link
           v-for="product in products"
           :key="product.id"
-          class="bg-white rounded-xl border border-slate-100 p-4
+          :to="`/product/${product.id}`"
+          class="block bg-white rounded-xl border border-slate-100 p-4
                  hover:shadow-md transition cursor-pointer"
         >
           <img
@@ -112,16 +99,17 @@ onMounted(async () => {
           <p class="mt-2 font-bold text-[#0d141c]">
             ${{ product.price }}
           </p>
-        </div>
+        </router-link>
       </div>
     </div>
 
     <!-- LIST VIEW -->
     <div v-else class="flex-1 overflow-y-auto p-6">
       <div class="flex flex-col gap-4 pb-10">
-        <div
+        <router-link
           v-for="product in products"
           :key="product.id"
+          :to="`/product/${product.id}`"
           class="flex items-center gap-4 p-4 bg-white rounded-xl
                  border border-slate-100 hover:shadow-md transition cursor-pointer"
         >
@@ -141,7 +129,7 @@ onMounted(async () => {
           <p class="font-bold text-[#0d141c]">
             ${{ product.price }}
           </p>
-        </div>
+        </router-link>
       </div>
     </div>
   </section>
