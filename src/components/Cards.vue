@@ -19,6 +19,8 @@ const isLoading = ref(true);
 const selectedProductId = ref<number | null>(null);
 const isDetailsOpen = ref(false);
 
+const { addToCart } = useCart();
+
 /**
  * Lifecycle
  */
