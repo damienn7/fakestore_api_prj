@@ -35,6 +35,19 @@ export function useCart() {
     saveToStorage();
   }
 
+  function updateQuantity(productId: number, quantity: number) {
+    if (quantity <= 0) {
+      removeFromCart(productId);
+      return;
+    }
+
+    const item = cartItems.value.find((item) => item.productId === productId);
+    if (item) {
+      item.quantity = quantity;
+      saveToStorage();
+    }
+  }
+
   return {
     cartItems,
     addToCart,
