@@ -70,6 +70,20 @@ export function useCart() {
     return itemsWithDetails;
   }
 
+  async function getTotalPrice(): Promise<number> {
+    const items = await getCartItemsWithDetails();
+    return items.reduce((total, item) => total + item.price * item.quantity, 0);
+  }
+
+  function isInCart(productId: number): boolean {
+    return cartItems.value.some((item) => item.productId === productId);
+  }
+
+  function getQuantity(productId: number): number {
+    const item = cartItems.value.find((item) => item.productId === productId);
+    return item ? item.quantity : 0;
+  }
+
   return {
     cartItems: computed(() => cartItems.value),
     itemCount,
@@ -78,6 +92,10 @@ export function useCart() {
     addToCart,
     removeFromCart,
     clearCart,
-    updateQuantity
+    updateQuantity,
+    getCartItemsWithDetails,
+    getTotalPrice,
+    isInCart,
+    getQuantity
   };
 }
