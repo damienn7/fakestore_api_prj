@@ -1,6 +1,18 @@
 <script setup lang="ts">
-import Navbar from "./components/Navbar.vue";
-import Cards from "./components/Cards.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import Navbar from "@/components/Navbar.vue";
+
+const route = useRoute();
+
+/**
+ * Pages sans navbar (auth fullscreen)
+ */
+const noNavbarRoutes = ["/login", "/inscription"];
+
+const showNavbar = computed(() => {
+  return !noNavbarRoutes.includes(route.path);
+});
 
 const onOpenCart = () => {
   console.log("Panier ouvert");
@@ -8,18 +20,18 @@ const onOpenCart = () => {
 </script>
 
 <template>
-  <router-view />
-  <div class="min-h-screen flex flex-col">
-    <!-- Navbar -->
+  <!-- Layout GLOBAL -->
+  <div class="min-h-screen w-full">
+
+    <!-- NAVBAR uniquement si autorisée -->
     <Navbar
+      v-if="showNavbar"
       title="ShopMinimal"
       :has-items="true"
       @open-cart="onOpenCart"
     />
 
-    <!-- Contenu principal -->
-    <main class="flex-1 flex flex-col overflow-hidden">
-      <Cards />
-    </main>
+    <!-- ROUTES -->
+    <router-view />
   </div>
 </template>
