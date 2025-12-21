@@ -9,9 +9,9 @@ import type { Cart } from "../type/shop";
 /**
  * Récupère la liste complète des paniers
  */
-export async function getallcards(){
+export async function getallcards(): Promise<Cart[]>{
   const response = await fetch(API_URL);
-  const data = await response.json();
+  const data: Cart[] = await response.json();
   return data;
 }
 export async function addcards(){
