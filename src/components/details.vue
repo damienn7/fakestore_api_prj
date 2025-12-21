@@ -134,18 +134,20 @@ function handleAddToCart() {
 
 
 <button
+  @click="handleAddToCart"
+  :disabled="!product"
   class="absolute bottom-6 right-6
          w-14 h-14
          flex items-center justify-center
          rounded-lg
-         text-slate-600
-         hover:text-slate-900
-         transition border
-         border-slate-200 hover:border-slate-300
-         bg-white hover:bg-slate-50 "
+         text-white bg-primary
+         hover:bg-primary/90
+         disabled:bg-slate-300 disabled:cursor-not-allowed
+         transition border-none
+         shadow-md hover:shadow-lg"
   aria-label="Ajouter au panier"
 >
-  <span class="material-symbols-outlined text-2xl ">
+  <span class="material-symbols-outlined text-2xl">
     shopping_cart
   </span>
 </button>
