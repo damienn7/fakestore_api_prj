@@ -9,13 +9,17 @@ const products = ref<Product[]>([]);
 const isLoading = ref(true);
 
 onMounted(async () => {
-  products.value = await fetchProducts();
-  isLoading.value = false;
+  try {
+    products.value = await fetchProducts();
+  } finally {
+    isLoading.value = false;
+  }
 });
 </script>
 
 <template>
   <section class="flex-1 flex flex-col bg-[#FAFAFA] overflow-hidden">
+    <!-- Header -->
     <div
       class="px-6 py-5 flex items-center justify-between
              bg-[#FAFAFA]/90 backdrop-blur-sm
@@ -25,58 +29,118 @@ onMounted(async () => {
         {{ viewMode === "grid" ? "Grid View" : "List View" }}
       </h2>
 
-      <div class="hidden md:flex h-8 items-center rounded-lg bg-slate-200 p-1 gap-1">
+      <!-- Toggle icons -->
+      <div class="hidden md:flex h-9 items-center rounded-lg bg-slate-200 p-1 gap-1">
+        <!-- GRID ICON -->
         <button
           @click="viewMode = 'grid'"
-          class="px-3 h-full rounded text-xs"
-          :class="viewMode === 'grid' ? 'bg-white shadow-sm text-primary' : 'text-slate-500'"
+          :class="[
+            'h-full w-9 flex items-center justify-center rounded transition',
+            viewMode === 'grid'
+              ? 'bg-white shadow-sm text-primary'
+              : 'text-slate-500 hover:text-slate-700'
+          ]"
+          title="Vue grille"
         >
-          Grid
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h6v6H4V6zm10 0h6v6h-6V6zM4 14h6v6H4v-6zm10 0h6v6h-6v-6z" />
+          </svg>
         </button>
+
+        <!-- LIST ICON -->
         <button
           @click="viewMode = 'list'"
-          class="px-3 h-full rounded text-xs"
-          :class="viewMode === 'list' ? 'bg-white shadow-sm text-primary' : 'text-slate-500'"
+          :class="[
+            'h-full w-9 flex items-center justify-center rounded transition',
+            viewMode === 'list'
+              ? 'bg-white shadow-sm text-primary'
+              : 'text-slate-500 hover:text-slate-700'
+          ]"
+          title="Vue liste"
         >
-          List
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
         </button>
       </div>
     </div>
 
-    <div v-if="isLoading" class="flex-1 flex items-center justify-center text-slate-400">
+    <!-- Loading -->
+    <div
+      v-if="isLoading"
+      class="flex-1 flex items-center justify-center text-slate-400"
+    >
       Chargement des produits…
     </div>
 
-    <!-- GRID -->
+    <!-- GRID VIEW -->
     <div v-else-if="viewMode === 'grid'" class="flex-1 overflow-y-auto p-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
         <div
           v-for="product in products"
           :key="product.id"
-          class="bg-white rounded-xl border border-slate-100 p-4"
+          class="bg-white rounded-xl border border-slate-100 p-4
+                 hover:shadow-md transition cursor-pointer"
         >
-          <img :src="product.image" class="h-40 w-full object-contain mb-3" />
-          <h3 class="font-bold text-[#0d141c]">{{ product.title }}</h3>
-          <p class="text-sm text-slate-500 line-clamp-2">{{ product.description }}</p>
-          <p class="mt-2 font-bold">${{ product.price }}</p>
+          <img
+            :src="product.image"
+            alt=""
+            class="h-40 w-full object-contain mb-3"
+          />
+          <h3 class="font-bold text-[#0d141c] mb-1">
+            {{ product.title }}
+          </h3>
+          <p class="text-sm text-slate-500 line-clamp-2">
+            {{ product.description }}
+          </p>
+          <p class="mt-2 font-bold text-[#0d141c]">
+            ${{ product.price }}
+          </p>
         </div>
       </div>
     </div>
 
-    <!-- LIST -->
+    <!-- LIST VIEW -->
     <div v-else class="flex-1 overflow-y-auto p-6">
       <div class="flex flex-col gap-4 pb-10">
         <div
           v-for="product in products"
           :key="product.id"
-          class="flex items-center gap-4 p-4 bg-white rounded-xl border border-slate-100"
+          class="flex items-center gap-4 p-4 bg-white rounded-xl
+                 border border-slate-100 hover:shadow-md transition cursor-pointer"
         >
-          <img :src="product.image" class="w-24 h-24 object-contain bg-slate-50 rounded" />
+          <img
+            :src="product.image"
+            alt=""
+            class="w-24 h-24 object-contain bg-slate-50 rounded"
+          />
           <div class="flex-1">
-            <h3 class="font-bold text-[#0d141c]">{{ product.title }}</h3>
-            <p class="text-sm text-slate-500 line-clamp-2">{{ product.description }}</p>
+            <h3 class="font-bold text-[#0d141c] mb-1">
+              {{ product.title }}
+            </h3>
+            <p class="text-sm text-slate-500 line-clamp-2">
+              {{ product.description }}
+            </p>
           </div>
-          <p class="font-bold">${{ product.price }}</p>
+          <p class="font-bold text-[#0d141c]">
+            ${{ product.price }}
+          </p>
         </div>
       </div>
     </div>
