@@ -7,6 +7,9 @@ import { useCart } from "@/composables/useCart";
 
 const route = useRoute();
 
+const { hasItems } = useCart();
+const isCartOpen = ref(false);
+
 /**
  * Pages sans navbar (auth fullscreen)
  */
@@ -17,7 +20,11 @@ const showNavbar = computed(() => {
 });
 
 const onOpenCart = () => {
-  console.log("Panier ouvert");
+  isCartOpen.value = true;
+};
+
+const onCloseCart = () => {
+  isCartOpen.value = false;
 };
 </script>
 
