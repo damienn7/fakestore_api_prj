@@ -14,18 +14,9 @@ const hasError = ref(false);
 onMounted(async () => {
   try {
     const id = Number(route.params.id);
-
-    if (isNaN(id)) {
-      throw new Error("ID invalide");
-    }
-
     product.value = await fetchProductById(id);
-
-    if (!product.value) {
-      throw new Error("Produit introuvable");
-    }
-  } catch (error) {
-    console.error(error);
+    if (!product.value) throw new Error();
+  } catch {
     hasError.value = true;
   } finally {
     isLoading.value = false;
@@ -40,16 +31,31 @@ onMounted(async () => {
     </div>
 
     <div v-else-if="hasError" class="text-center text-red-500">
-      Erreur lors du chargement du produit
+      Produit introuvable
     </div>
 
     <div
       v-else-if="product"
       class="max-w-4xl mx-auto bg-white rounded-xl p-6"
     >
-      <h1 class="text-2xl font-bold text-[#0d141c]">
-        {{ product.title }}
-      </h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <img
+          :src="product.image"
+          class="max-h-80 mx-auto object-contain"
+        />
+
+        <div>
+          <h1 class="text-2xl font-bold mb-2">
+            {{ product.title }}
+          </h1>
+          <p class="text-slate-500 mb-4">
+            {{ product.description }}
+          </p>
+          <p class="font-bold text-lg">
+            ${{ product.price }}
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 </template>
