@@ -1,6 +1,6 @@
 <!-- Auteur : Thomas et Rayan -->
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
 
@@ -19,6 +19,9 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
+/**
+ * State
+ */
 const product = ref<Product | null>(null);
 const isLoading = ref(false);
 const hasError = ref(false);
@@ -47,7 +50,11 @@ watch(
 </script>
 
 <template>
-  <div v-if="open" class="fixed inset-0 z-50">
+  <!-- Overlay + centrage -->
+  <div
+    v-if="open"
+    class="fixed inset-0 z-50 flex items-center justify-center"
+  >
     <!-- Overlay -->
     <div
       class="absolute inset-0 bg-black/40"
@@ -56,48 +63,67 @@ watch(
 
     <!-- Modal -->
     <div
-      class="relative z-50 max-w-4xl mx-auto mt-20 bg-white rounded-xl p-6"
+      class="relative z-50 w-full max-w-4xl bg-white rounded-2xl p-8
+             shadow-xl mx-4"
     >
-      <!-- Close -->
+      <!-- Bouton fermer -->
       <button
         @click="emit('close')"
-        class="absolute top-4 right-4 text-slate-500 hover:text-black"
+        class="absolute top-4 right-4 text-slate-400
+               hover:text-slate-700 text-xl"
+        aria-label="Fermer"
       >
         ✕
       </button>
 
       <!-- Loading -->
-      <div v-if="isLoading" class="text-center text-slate-400">
+      <div
+        v-if="isLoading"
+        class="text-center text-slate-400 py-20"
+      >
         Chargement du produit…
       </div>
 
       <!-- Error -->
-      <div v-else-if="hasError" class="text-center text-red-500">
+      <div
+        v-else-if="hasError"
+        class="text-center text-red-500 py-20"
+      >
         Impossible de charger le produit
       </div>
 
       <!-- Content -->
-      <div v-else-if="product" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <img
-          :src="product.image"
-          :alt="product.title"
-          class="max-h-80 mx-auto object-contain"
-        />
+      <div
+        v-else-if="product"
+        class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center"
+      >
+        <!-- Image -->
+        <div class="flex justify-center">
+          <img
+            :src="product.image"
+            :alt="product.title"
+            class="max-h-96 object-contain"
+          />
+        </div>
 
+        <!-- Infos -->
         <div>
-          <h1 class="text-2xl font-bold mb-2">
+          <h1 class="text-2xl font-bold text-[#0d141c] mb-4">
             {{ product.title }}
           </h1>
 
-          <p class="text-slate-500 mb-4">
+          <p class="text-slate-500 mb-6 leading-relaxed">
             {{ product.description }}
           </p>
 
-          <p class="text-lg font-bold mb-2">
+          <p class="text-xl font-bold mb-4">
             Prix : ${{ product.price }}
           </p>
 
-          <span class="text-xs bg-slate-100 px-3 py-1 rounded-full">
+          <span
+            class="inline-block text-xs bg-slate-100 text-slate-600
+                   px-4 py-1 rounded-full"
+          >
             {{ product.category }}
           </span>
         </div>

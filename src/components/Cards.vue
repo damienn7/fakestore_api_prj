@@ -3,11 +3,24 @@
 import { ref, onMounted } from "vue";
 import { fetchProducts } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
+import Details from "@/components/details.vue";
 
+/**
+ * State
+ */
 const viewMode = ref<"grid" | "list">("grid");
 const products = ref<Product[]>([]);
 const isLoading = ref(true);
 
+/**
+ * Modal state
+ */
+const selectedProductId = ref<number | null>(null);
+const isDetailsOpen = ref(false);
+
+/**
+ * Lifecycle
+ */
 onMounted(async () => {
   try {
     products.value = await fetchProducts();
@@ -15,6 +28,19 @@ onMounted(async () => {
     isLoading.value = false;
   }
 });
+
+/**
+ * Methods
+ */
+const openDetails = (id: number) => {
+  selectedProductId.value = id;
+  isDetailsOpen.value = true;
+};
+
+const closeDetails = () => {
+  isDetailsOpen.value = false;
+  selectedProductId.value = null;
+};
 </script>
 
 <template>
@@ -78,16 +104,15 @@ onMounted(async () => {
     <!-- GRID VIEW -->
     <div v-else-if="viewMode === 'grid'" class="flex-1 overflow-y-auto p-6">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 pb-10">
-        <router-link
+        <div
           v-for="product in products"
           :key="product.id"
-          :to="`/product/${product.id}`"
-          class="block bg-white rounded-xl border border-slate-100 p-4
+          @click="openDetails(product.id)"
+          class="bg-white rounded-xl border border-slate-100 p-4
                  hover:shadow-md transition cursor-pointer"
         >
           <img
             :src="product.image"
-            alt=""
             class="h-40 w-full object-contain mb-3"
           />
           <h3 class="font-bold text-[#0d141c] mb-1">
@@ -96,41 +121,47 @@ onMounted(async () => {
           <p class="text-sm text-slate-500 line-clamp-2">
             {{ product.description }}
           </p>
-          <p class="mt-2 font-bold text-[#0d141c]">
+          <p class="mt-2 font-bold">
             ${{ product.price }}
           </p>
-        </router-link>
+        </div>
       </div>
     </div>
 
     <!-- LIST VIEW -->
     <div v-else class="flex-1 overflow-y-auto p-6">
       <div class="flex flex-col gap-4 pb-10">
-        <router-link
+        <div
           v-for="product in products"
           :key="product.id"
-          :to="`/product/${product.id}`"
+          @click="openDetails(product.id)"
           class="flex items-center gap-4 p-4 bg-white rounded-xl
                  border border-slate-100 hover:shadow-md transition cursor-pointer"
         >
           <img
             :src="product.image"
-            alt=""
             class="w-24 h-24 object-contain bg-slate-50 rounded"
           />
           <div class="flex-1">
             <h3 class="font-bold text-[#0d141c] mb-1">
               {{ product.title }}
             </h3>
-            <p class="text-sm text-slate-500 line-clamp-2">
+            <!-- <p class="text-sm text-slate-500 line-clamp-2">
               {{ product.description }}
-            </p>
+            </p> -->
           </div>
-          <p class="font-bold text-[#0d141c]">
+          <p class="font-bold">
             ${{ product.price }}
           </p>
-        </router-link>
+        </div>
       </div>
     </div>
+
+    <!-- DETAILS MODAL -->
+    <Details
+      :open="isDetailsOpen"
+      :product-id="selectedProductId"
+      @close="closeDetails"
+    />
   </section>
 </template>
