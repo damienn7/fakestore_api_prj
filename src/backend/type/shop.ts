@@ -32,5 +32,13 @@ export interface CartItemWithDetails extends CartItem {
   category: string;
 }
 
+/**
+ * Payload pour créer/mettre à jour un panier via l'API
+ */
+export interface CartRequest {
+  userId: number;
+  date: string;
+  products: CartItem[];
+}
 
 
