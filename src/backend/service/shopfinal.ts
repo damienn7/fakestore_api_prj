@@ -61,8 +61,26 @@ export async function getsingle(id: number): Promise<Cart | null> {
     return null;
   }
 }
-export async function updatecards(){
-    
+export async function updatecards(id: number, cartData: CartRequest): Promise<Cart | null> {
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(cartData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    const cart: Cart = await response.json();
+    return cart;
+  } catch (error) {
+    console.error(`Erreur lors de la mise à jour du panier (ID: ${id}) :`, error);
+    return null;
+  }
 }
 export async function deletecards(){
 
