@@ -4,7 +4,7 @@
 // ensemble des endpoint utilissée
 const API_URL="https://fakestoreapi.com/carts";
 
-import type { Cart } from "../type/shop";
+import type { Cart, CartRequest } from "../type/shop";
 
 /**
  * Récupère la liste complète des paniers
