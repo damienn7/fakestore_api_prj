@@ -1,11 +1,12 @@
 <!-- Auteur : Thomas et Rayan -->
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
 
 const route = useRoute();
+const router = useRouter();
 
 const product = ref<Product | null>(null);
 const isLoading = ref(true);
@@ -14,6 +15,9 @@ const hasError = ref(false);
 onMounted(async () => {
   try {
     const id = Number(route.params.id);
+
+    if (isNaN(id)) throw new Error();
+
     product.value = await fetchProductById(id);
     if (!product.value) throw new Error();
   } catch {
@@ -26,12 +30,19 @@ onMounted(async () => {
 
 <template>
   <section class="min-h-screen bg-[#FAFAFA] p-6">
+    <button
+      @click="router.back()"
+      class="mb-6 text-sm text-slate-500 hover:text-slate-800"
+    >
+      ← Retour
+    </button>
+
     <div v-if="isLoading" class="text-center text-slate-400">
       Chargement du produit…
     </div>
 
     <div v-else-if="hasError" class="text-center text-red-500">
-      Produit introuvable
+      Impossible de charger le produit
     </div>
 
     <div
@@ -41,6 +52,7 @@ onMounted(async () => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <img
           :src="product.image"
+          :alt="product.title"
           class="max-h-80 mx-auto object-contain"
         />
 
@@ -48,12 +60,18 @@ onMounted(async () => {
           <h1 class="text-2xl font-bold mb-2">
             {{ product.title }}
           </h1>
+
           <p class="text-slate-500 mb-4">
             {{ product.description }}
           </p>
-          <p class="font-bold text-lg">
-            ${{ product.price }}
+
+          <p class="text-lg font-bold mb-2">
+            Prix : ${{ product.price }}
           </p>
+
+          <span class="text-xs bg-slate-100 px-3 py-1 rounded-full">
+            {{ product.category }}
+          </span>
         </div>
       </div>
     </div>
