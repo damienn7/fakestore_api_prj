@@ -77,18 +77,12 @@ watch(
       </button>
 
       <!-- Loading -->
-      <div
-        v-if="isLoading"
-        class="text-center text-slate-400 py-20"
-      >
+      <div v-if="isLoading" class="text-center text-slate-400 py-20">
         Chargement du produit…
       </div>
 
       <!-- Error -->
-      <div
-        v-else-if="hasError"
-        class="text-center text-red-500 py-20"
-      >
+      <div v-else-if="hasError" class="text-center text-red-500 py-20">
         Impossible de charger le produit
       </div>
 
@@ -128,6 +122,24 @@ watch(
           </span>
         </div>
       </div>
+
+
+<button
+  class="absolute bottom-6 right-6
+         w-14 h-14
+         flex items-center justify-center
+         rounded-lg
+         text-slate-600
+         hover:text-slate-900
+         transition border
+         border-slate-200 hover:border-slate-300
+         bg-white hover:bg-slate-50 "
+  aria-label="Ajouter au panier"
+>
+  <span class="material-symbols-outlined text-2xl ">
+    shopping_cart
+  </span>
+</button>
     </div>
   </div>
 </template>

@@ -118,9 +118,6 @@ const closeDetails = () => {
           <h3 class="font-bold text-[#0d141c] mb-1">
             {{ product.title }}
           </h3>
-          <p class="text-sm text-slate-500 line-clamp-2">
-            {{ product.description }}
-          </p>
           <p class="mt-2 font-bold">
             ${{ product.price }}
           </p>
@@ -146,9 +143,6 @@ const closeDetails = () => {
             <h3 class="font-bold text-[#0d141c] mb-1">
               {{ product.title }}
             </h3>
-            <!-- <p class="text-sm text-slate-500 line-clamp-2">
-              {{ product.description }}
-            </p> -->
           </div>
           <p class="font-bold">
             ${{ product.price }}
