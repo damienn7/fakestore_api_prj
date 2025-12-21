@@ -50,6 +50,12 @@ watch(
     }
   }
 );
+
+function handleAddToCart() {
+  if (!product.value) return;
+  addToCart(product.value.id, 1);
+  alert(`${product.value.title} ajouté au panier !`);
+}
 </script>
 
 <template>
