@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Navbar from "./components/Navbar.vue";
-import Cards from "./components/Cards.vue";
+import Navbar from "@/components/Navbar.vue";
 
 const onOpenCart = () => {
   console.log("Panier ouvert");
@@ -8,18 +7,17 @@ const onOpenCart = () => {
 </script>
 
 <template>
-  <router-view />
   <div class="min-h-screen flex flex-col">
-    <!-- Navbar -->
+    <!-- Navbar toujours visible -->
     <Navbar
       title="ShopMinimal"
       :has-items="true"
       @open-cart="onOpenCart"
     />
 
-    <!-- Contenu principal -->
+    <!-- LES PAGES S’AFFICHENT ICI -->
     <main class="flex-1 flex flex-col overflow-hidden">
-      <Cards />
+      <router-view />
     </main>
   </div>
 </template>

@@ -1,22 +1,19 @@
-
-// Auteur Thomas et Rayan
 import { createRouter, createWebHistory } from "vue-router";
 import Cards from "@/components/Cards.vue";
-import Details from "@/components/details.vue";
+import Inscription from "@/views/inscription.vue";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      name: "cards",
+      name: "home",
       component: Cards,
     },
     {
-      path: "/product/:id",
-      name: "product-details",
-      component: Details,
-      props: true,
+      path: "/inscription",
+      name: "inscription",
+      component: Inscription,
     },
   ],
 });
