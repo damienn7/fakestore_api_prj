@@ -6,9 +6,43 @@ import { ref, computed } from "vue";
 import type { CartItem, CartItemWithDetails } from "@/backend/type/shop";
 import { fetchProductById } from "@/backend/service/productapi";
 
+const CART_STORAGE_KEY = "fakestore_cart";
 const cartItems = ref<CartItem[]>([]);
+const isInitialized = ref(false);
+
+function initializeCart() {
+  if (isInitialized.value) return;
+
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (stored) {
+      cartItems.value = JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error("Erreur lors du chargement du panier :", error);
+    cartItems.value = [];
+  }
+
+  isInitialized.value = true;
+}
+
+function saveToStorage() {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems.value));
+  } catch (error) {
+    console.error("Erreur lors de la sauvegarde du panier :", error);
+  }
+}
 
 export function useCart() {
+  initializeCart();
+
+  const itemCount = computed(() => {
+    return cartItems.value.reduce((total, item) => total + item.quantity, 0);
+  });
+
+  const isEmpty = computed(() => cartItems.value.length === 0);
+  const hasItems = computed(() => !isEmpty.value);
 
   function addToCart(productId: number, quantity: number = 1) {
     const existingItem = cartItems.value.find(
