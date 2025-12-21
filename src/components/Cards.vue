@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import { fetchProducts } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
 import Details from "@/components/details.vue";
+import { useCart } from "@/composables/useCart";
 
 /**
  * State
