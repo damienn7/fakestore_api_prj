@@ -75,7 +75,7 @@ function handleClearCart() {
 }
 
 function handleCheckout() {
-  alert(\`Checkout: \${itemCount.value} articles - Total: $\${totalPrice.value.toFixed(2)}\`);
+  alert(`Checkout: ${itemCount.value} articles - Total: $${totalPrice.value.toFixed(2)}`);
 }
 </script>
 
