@@ -22,6 +22,15 @@ export interface Cart {
   userId: number;
   date: string;
   products: CartItem[];
+}/**
+ * CartItem enrichi avec les détails du produit pour l'affichage
+ */
+export interface CartItemWithDetails extends CartItem {
+  title: string;
+  price: number;
+  image: string;
+  category: string;
 }
+
 
 
