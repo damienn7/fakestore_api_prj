@@ -44,6 +44,12 @@ const closeDetails = () => {
   isDetailsOpen.value = false;
   selectedProductId.value = null;
 };
+
+function handleAddToCart(product: Product, event: Event) {
+  event.stopPropagation();
+  addToCart(product.id, 1);
+  alert(`${product.title} ajouté au panier !`);
+}
 </script>
 
 <template>
