@@ -1,0 +1,45 @@
+<template>
+  <div class="min-h-screen flex items-center justify-center bg-slate-50">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8 space-y-6">
+      <div>
+        <h1 class="text-3xl font-black text-slate-900">
+          Inscription
+        </h1>
+        <p class="text-slate-500">
+          Crée ton compte
+        </p>
+      </div>
+
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">
+            Email
+          </label>
+          <input
+            type="email"
+            class="w-full h-11 rounded-lg border border-slate-300 px-3"
+          />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700 mb-1">
+            Mot de passe
+          </label>
+          <input
+            type="password"
+            class="w-full h-11 rounded-lg border border-slate-300 px-3"
+          />
+        </div>
+
+        <button
+          class="w-full h-11 rounded-lg bg-blue-600 text-white font-medium"
+        >
+          Créer un compte
+        </button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+</script>
