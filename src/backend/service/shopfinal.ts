@@ -99,4 +99,21 @@ export async function deletecards(id: number): Promise<boolean> {
   }
 }
 
+/**
+ * Récupère les paniers d'un utilisateur
+ */
+export async function getUserCarts(userId: number): Promise<Cart[]> {
+  try {
+    const response = await fetch(`${API_URL}/user/${userId}`);
 
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP : ${response.status}`);
+    }
+
+    const carts: Cart[] = await response.json();
+    return carts;
+  } catch (error) {
+    console.error(`Erreur lors de la récupération des paniers de l'utilisateur (ID: ${userId}) :`, error);
+    return [];
+  }
+}
