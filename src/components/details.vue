@@ -3,6 +3,7 @@
 import { ref, watch } from "vue";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
+import { useCart } from "@/composables/useCart";
 
 /**
  * Props
