@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import { fetchProducts } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
 import Details from "@/components/details.vue";
+import { useCart } from "@/composables/useCart";
 
 /**
  * State
@@ -17,6 +18,8 @@ const isLoading = ref(true);
  */
 const selectedProductId = ref<number | null>(null);
 const isDetailsOpen = ref(false);
+
+const { addToCart } = useCart();
 
 /**
  * Lifecycle
@@ -41,6 +44,12 @@ const closeDetails = () => {
   isDetailsOpen.value = false;
   selectedProductId.value = null;
 };
+
+function handleAddToCart(product: Product, event: Event) {
+  event.stopPropagation();
+  addToCart(product.id, 1);
+  alert(`${product.title} ajouté au panier !`);
+}
 </script>
 
 <template>
@@ -121,6 +130,15 @@ const closeDetails = () => {
           <p class="mt-2 font-bold">
             ${{ product.price }}
           </p>
+          <button
+            @click="handleAddToCart(product, $event)"
+            class="mt-3 w-full py-2 bg-primary text-white rounded-lg
+                   text-sm font-semibold hover:bg-primary/90 transition
+                   flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Ajouter
+          </button>
         </div>
       </div>
     </div>
@@ -147,6 +165,15 @@ const closeDetails = () => {
           <p class="font-bold">
             ${{ product.price }}
           </p>
+          <button
+            @click="handleAddToCart(product, $event)"
+            class="ml-4 px-4 py-2 bg-primary text-white rounded-lg
+                   text-sm font-semibold hover:bg-primary/90 transition
+                   flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Ajouter
+          </button>
         </div>
       </div>
     </div>

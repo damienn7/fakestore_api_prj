@@ -3,6 +3,7 @@
 import { ref, watch } from "vue";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
+import { useCart } from "@/composables/useCart";
 
 /**
  * Props
@@ -26,8 +27,10 @@ const product = ref<Product | null>(null);
 const isLoading = ref(false);
 const hasError = ref(false);
 
+const { addToCart } = useCart();
+
 /**
- * Charger le produit quand la popup s’ouvre
+ * Charger le produit quand la popup s'ouvre
  */
 watch(
   () => props.open,
@@ -47,6 +50,12 @@ watch(
     }
   }
 );
+
+function handleAddToCart() {
+  if (!product.value) return;
+  addToCart(product.value.id, 1);
+  alert(`${product.value.title} ajouté au panier !`);
+}
 </script>
 
 <template>
@@ -125,18 +134,20 @@ watch(
 
 
 <button
+  @click="handleAddToCart"
+  :disabled="!product"
   class="absolute bottom-6 right-6
          w-14 h-14
          flex items-center justify-center
          rounded-lg
-         text-slate-600
-         hover:text-slate-900
-         transition border
-         border-slate-200 hover:border-slate-300
-         bg-white hover:bg-slate-50 "
+         text-white bg-primary
+         hover:bg-primary/90
+         disabled:bg-slate-300 disabled:cursor-not-allowed
+         transition border-none
+         shadow-md hover:shadow-lg"
   aria-label="Ajouter au panier"
 >
-  <span class="material-symbols-outlined text-2xl ">
+  <span class="material-symbols-outlined text-2xl">
     shopping_cart
   </span>
 </button>
