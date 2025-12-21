@@ -36,11 +36,17 @@ const onCloseCart = () => {
     <Navbar
       v-if="showNavbar"
       title="ShopMinimal"
-      :has-items="true"
+      :has-items="hasItems"
       @open-cart="onOpenCart"
     />
 
     <!-- ROUTES -->
     <router-view />
+
+    <!-- CART MODAL -->
+    <Shopfinal
+      :open="isCartOpen"
+      @close="onCloseCart"
+    />
   </div>
 </template>
