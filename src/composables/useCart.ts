@@ -19,6 +19,8 @@ export function useCart() {
     } else {
       cartItems.value.push({ productId, quantity });
     }
+
+    saveToStorage();
   }
 
   return {
