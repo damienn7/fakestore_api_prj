@@ -10,7 +10,7 @@
         </p>
       </div>
 
-      <form class="space-y-4">
+      <form class="space-y-4" @submit.prevent="submit">
         <input
           v-model="email"
           type="email"
@@ -33,6 +33,7 @@
         />
 
         <button
+          type="submit"
           class="w-full h-11 rounded-lg bg-blue-600 text-white font-medium"
         >
           Créer un compte
@@ -48,4 +49,10 @@ import { ref } from "vue";
 const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+
+const submit = () => {
+  if (password.value !== confirmPassword.value) {
+    alert("Les mots de passe ne correspondent pas");
+  }
+};
 </script>
