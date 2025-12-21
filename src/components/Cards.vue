@@ -165,6 +165,15 @@ function handleAddToCart(product: Product, event: Event) {
           <p class="font-bold">
             ${{ product.price }}
           </p>
+          <button
+            @click="handleAddToCart(product, $event)"
+            class="ml-4 px-4 py-2 bg-primary text-white rounded-lg
+                   text-sm font-semibold hover:bg-primary/90 transition
+                   flex items-center justify-center gap-2"
+          >
+            <span class="material-symbols-outlined text-sm">add_shopping_cart</span>
+            Ajouter
+          </button>
         </div>
       </div>
     </div>
