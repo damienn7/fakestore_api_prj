@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import Navbar from "@/components/Navbar.vue";
+import Shopfinal from "@/components/shopfinal.vue";
+import { useCart } from "@/composables/useCart";
 
 const route = useRoute();
 
