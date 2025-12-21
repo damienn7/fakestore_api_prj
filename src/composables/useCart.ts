@@ -10,7 +10,15 @@ const cartItems = ref<CartItem[]>([]);
 export function useCart() {
 
   function addToCart(productId: number, quantity: number = 1) {
-    cartItems.value.push({ productId, quantity });
+    const existingItem = cartItems.value.find(
+      (item) => item.productId === productId
+    );
+
+    if (existingItem) {
+      existingItem.quantity += quantity;
+    } else {
+      cartItems.value.push({ productId, quantity });
+    }
   }
 
   return {
