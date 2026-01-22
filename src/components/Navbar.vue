@@ -11,12 +11,14 @@ const emit = defineEmits<{
   (e: "open-cart"): void;
 }>();
 
-
-
 const router = useRouter();
 
 const goToInscription = () => {
   router.push("/inscription");
+};
+
+const goToLogin = () => {
+  router.push("/connexion");
 };
 
 const searchQuery = ref("");
@@ -73,20 +75,33 @@ const searchQuery = ref("");
           v-if="hasItems"
           class="absolute top-2 right-2 size-2 bg-primary rounded-full"
         ></span>
-
-
       </button>
-<button
-  @click="goToInscription"
-  class="relative size-10 rounded-lg bg-slate-100
-         hover:bg-slate-200 transition
-         flex items-center justify-center"
-  aria-label="Compte"
->
-  <span class="material-symbols-outlined text-slate-700">
-    person
-  </span>
-</button>
+
+      <!-- Login button -->
+      <button
+        @click="goToLogin"
+        class="relative size-10 rounded-lg bg-slate-100
+               hover:bg-slate-200 transition
+               flex items-center justify-center"
+        aria-label="Connexion"
+      >
+        <span class="material-symbols-outlined text-slate-700">
+          login
+        </span>
+      </button>
+
+      <!-- Sign up button -->
+      <button
+        @click="goToInscription"
+        class="relative size-10 rounded-lg bg-slate-100
+               hover:bg-slate-200 transition
+               flex items-center justify-center"
+        aria-label="Inscription"
+      >
+        <span class="material-symbols-outlined text-slate-700">
+          person_add
+        </span>
+      </button>
 
     </div>
   </nav>

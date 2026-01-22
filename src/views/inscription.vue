@@ -82,6 +82,15 @@
           />
 
           <input
+            v-model="username"
+            type="username"
+            required
+            placeholder="Username"
+            class="w-full h-12 rounded-lg border border-slate-300 px-3
+                   focus:outline-none focus:ring-2 focus:ring-primary"
+          />
+
+          <input
             v-model="password"
             type="password"
             required
@@ -133,26 +142,50 @@ import { registerUser } from "@/backend/service/register";
 const router = useRouter();
 
 const email = ref("");
+const username = ref("");
 const password = ref("");
 const confirmPassword = ref("");
+const errorMessage = ref("");
+const isLoading = ref(false);
 
 const submit = async () => {
-  if (password.value !== confirmPassword.value) {
-    alert("Les mots de passe ne correspondent pas");
+  errorMessage.value = "";
+
+  // Validation
+  if (!username.value || !email.value || !password.value) {
+    errorMessage.value = "Veuillez remplir tous les champs";
     return;
   }
 
+  if (password.value !== confirmPassword.value) {
+    errorMessage.value = "Les mots de passe ne correspondent pas";
+    return;
+  }
+
+  if (password.value.length < 6) {
+    errorMessage.value = "Le mot de passe doit contenir au moins 6 caractères";
+    return;
+  }
+
+  isLoading.value = true;
+
   const success = await registerUser({
+    username: username.value,
     email: email.value,
     password: password.value,
   });
 
   if (success) {
-    alert("Compte créé avec succès");
-    router.push("/login");
+    // Afficher les credentials pour le login
+    alert(
+      `✅ Compte créé avec succès!`
+    );
+    router.push("/connexion");
   } else {
-    alert("Erreur lors de l’inscription");
+    errorMessage.value = "Erreur lors de l'inscription. Ce nom d'utilisateur existe peut-être déjà.";
   }
+
+  isLoading.value = false;
 };
 
 const goBack = () => {
@@ -160,6 +193,6 @@ const goBack = () => {
 };
 
 const goToLogin = () => {
-  router.push("/login");
+  router.push("/connexion");
 };
 </script>
