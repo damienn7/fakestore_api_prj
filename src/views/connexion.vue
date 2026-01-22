@@ -248,7 +248,7 @@ const submit = async () => {
 
     if (token) {
       alert("Connexion réussie !");
-      router.push("/");
+      router.push("/admin");
     } else {
       errorMessage.value = "Identifiants invalides. Veuillez réessayer.";
     }

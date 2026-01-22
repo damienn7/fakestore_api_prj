@@ -3,6 +3,7 @@
 // Centralise la logique d’appel HTTP pour le register
 
 export interface RegisterPayload {
+  username: string;
   email: string;
   password: string;
 }
@@ -18,9 +19,9 @@ export async function registerUser(payload: RegisterPayload): Promise<boolean> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        username: payload.username,
         email: payload.email,
-        password: payload.password,
-        username: payload.email.split("@")[0], // FakeStore exige username
+        password: payload.password
       }),
     });
 
