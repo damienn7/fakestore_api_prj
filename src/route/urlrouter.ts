@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Cards from "@/components/Cards.vue";
 import Inscription from "@/views/inscription.vue";
+import Connexion from "@/views/connexion.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: "/inscription",
       name: "inscription",
       component: Inscription,
+    },
+    {
+      path: "/connexion",
+      name: "connexion",
+      component: Connexion,
     },
   ],
 });

@@ -13,7 +13,7 @@ const isCartOpen = ref(false);
 /**
  * Pages sans navbar (auth fullscreen)
  */
-const noNavbarRoutes = ["/login", "/inscription"];
+const noNavbarRoutes = ["/connexion", "/inscription"];
 
 const showNavbar = computed(() => {
   return !noNavbarRoutes.includes(route.path);

@@ -149,7 +149,7 @@ const submit = async () => {
 
   if (success) {
     alert("Compte créé avec succès");
-    router.push("/login");
+    router.push("/connexion");
   } else {
     alert("Erreur lors de l’inscription");
   }
@@ -160,6 +160,6 @@ const goBack = () => {
 };
 
 const goToLogin = () => {
-  router.push("/login");
+  router.push("/connexion");
 };
 </script>
