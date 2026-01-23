@@ -49,3 +49,7 @@ npm run build
   password: "kfejk@*_"
 }
 ```
+
+
+### Authors
+Thomas, Rayan, Damien
