@@ -52,4 +52,6 @@ npm run build
 
 
 ### Authors
-Thomas, Rayan, Damien
+- Thomas
+- Rayan
+- Damien
