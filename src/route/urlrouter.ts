@@ -4,6 +4,7 @@ import Inscription from "@/views/inscription.vue";
 import Connexion from "@/views/connexion.vue";
 import Admin from "@/views/Admin.vue";
 import CartDetail from "@/views/CartDetail.vue";
+import ProductDetail from "@/views/ProductDetail.vue";
 import { isAdmin, isAuthenticated } from "@/backend/service/authapi";
 
 const router = createRouter({
@@ -40,6 +41,11 @@ const router = createRouter({
       path: "/cart/:id",
       name: "cart-detail",
       component: CartDetail,
+    },
+    {
+      path: "/product/:id",
+      name: "product-detail",
+      component: ProductDetail,
     },
   ],
 });
