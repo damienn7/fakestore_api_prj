@@ -3,7 +3,8 @@ import Cards from "@/components/Cards.vue";
 import Inscription from "@/views/inscription.vue";
 import Connexion from "@/views/connexion.vue";
 import Admin from "@/views/Admin.vue";
-import { isAuthenticated } from "@/backend/service/authapi";
+import CartDetail from "@/views/CartDetail.vue";
+import { isAdmin, isAuthenticated } from "@/backend/service/authapi";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -28,12 +29,17 @@ const router = createRouter({
       name: "admin",
       component: Admin,
       beforeEnter: (to, from, next) => {
-        if (isAuthenticated()) {
+        if (isAuthenticated() && isAdmin()) {
           next();
         } else {
-          next("/connexion");
+          next("/");
         }
       },
+    },
+    {
+      path: "/cart/:id",
+      name: "cart-detail",
+      component: CartDetail,
     },
   ],
 });
