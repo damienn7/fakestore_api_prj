@@ -1,6 +1,6 @@
 <!-- Auteur : Rayan Chattaoui -->
 <template>
-  <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <div class="min-h-screen bg-white dark:bg-slate-900">
     <!-- Header -->
     <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
       <div class="max-w-6xl mx-auto px-6 py-4">
@@ -54,7 +54,7 @@
           </p>
 
           <div class="flex items-center gap-4">
-            <p class="text-3xl font-bold text-primary">${{ product.price.toFixed(2) }}</p>
+            <p class="text-3xl font-bold text-primary">{{ product.price.toFixed(2) }}€</p>
             <div v-if="product.rating" class="flex items-center gap-1 text-sm text-slate-500">
               <span class="material-symbols-outlined text-yellow-500 text-lg">star</span>
               {{ product.rating.rate }} ({{ product.rating.count }} avis)

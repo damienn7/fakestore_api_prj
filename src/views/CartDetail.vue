@@ -1,6 +1,6 @@
 <!-- Auteur : Rayan Chattaoui -->
 <template>
-  <div class="min-h-screen bg-slate-50 dark:bg-slate-900">
+  <div class="min-h-screen bg-white dark:bg-slate-900">
     <!-- Header -->
     <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
       <div class="max-w-4xl mx-auto px-6 py-4">
@@ -77,7 +77,7 @@
                 <p class="text-sm text-slate-500">{{ product.category }}</p>
               </div>
               <div class="text-right">
-                <p class="font-bold text-slate-900 dark:text-white">${{ (product.price || 0).toFixed(2) }}</p>
+                <p class="font-bold text-slate-900 dark:text-white">{{ (product.price || 0).toFixed(2) }}€</p>
                 <p class="text-sm text-slate-500">Qté: {{ product.quantity }}</p>
               </div>
             </div>
@@ -86,7 +86,7 @@
           <!-- Total -->
           <div class="p-4 bg-slate-50 dark:bg-slate-900 rounded-b-xl flex items-center justify-between">
             <span class="font-semibold text-slate-900 dark:text-white">Total</span>
-            <span class="text-xl font-bold text-primary">${{ totalPrice.toFixed(2) }}</span>
+            <span class="text-xl font-bold text-primary">{{ totalPrice.toFixed(2) }}€</span>
           </div>
         </div>
       </div>
