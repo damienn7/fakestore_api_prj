@@ -10,7 +10,7 @@ import {
   fetchLoggedInUserCarts,
   getStoredUserId,
 } from "@/backend/service/authapi";
-import { updatecards, addcards } from "@/backend/service/shopfinal";
+import { updatecards, addcards, deletecards } from "@/backend/service/shopfinal";
 
 const CART_STORAGE_KEY = "fakestore_cart";
 const CART_ID_STORAGE_KEY = "fakestore_cart_id";
@@ -200,6 +200,18 @@ export function useCart() {
     return null;
   }
 
+  async function deleteCart(id: number): Promise<boolean> {
+    const success = await deletecards(id);
+
+    if (success && cartId.value === id) {
+      cartId.value = null;
+      cartItems.value = [];
+      saveToStorage();
+    }
+
+    return success;
+  }
+
   return {
     cartItems: computed(() => cartItems.value),
     cartId: computed(() => cartId.value),
@@ -215,6 +227,7 @@ export function useCart() {
     getTotalPrice,
     isInCart,
     getQuantity,
-    createCart
+    createCart,
+    deleteCart
   };
 }

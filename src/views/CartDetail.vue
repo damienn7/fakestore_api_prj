@@ -39,9 +39,18 @@
               <p class="text-slate-500 mt-1">User ID: {{ cart.userId }}</p>
               <p class="text-slate-400 text-sm">{{ formatDate(cart.date) }}</p>
             </div>
-            <div class="text-right">
-              <p class="text-sm text-slate-500">Total produits</p>
-              <p class="text-3xl font-bold text-primary">{{ cart.products.length }}</p>
+            <div class="flex items-center gap-4">
+              <div class="text-right">
+                <p class="text-sm text-slate-500">Total produits</p>
+                <p class="text-3xl font-bold text-primary">{{ cart.products.length }}</p>
+              </div>
+              <button
+                @click="handleDelete"
+                :disabled="isDeleting"
+                class="p-3 text-red-500 hover:bg-red-50 rounded-lg transition"
+              >
+                <span class="material-symbols-outlined">delete</span>
+              </button>
             </div>
           </div>
         </div>
@@ -68,7 +77,7 @@
                 <p class="text-sm text-slate-500">{{ product.category }}</p>
               </div>
               <div class="text-right">
-                <p class="font-bold text-slate-900 dark:text-white">${{ product.price.toFixed(2) }}</p>
+                <p class="font-bold text-slate-900 dark:text-white">${{ (product.price || 0).toFixed(2) }}</p>
                 <p class="text-sm text-slate-500">Qté: {{ product.quantity }}</p>
               </div>
             </div>
@@ -88,10 +97,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { getsingle } from "@/backend/service/shopfinal";
+import { getsingle, deletecards } from "@/backend/service/shopfinal";
 import { fetchProductById } from "@/backend/service/productapi";
 import type { Cart } from "@/backend/type/shop";
 import type { Product } from "@/backend/type/products";
+
+const isDeleting = ref(false);
 
 const route = useRoute();
 const router = useRouter();
@@ -123,6 +134,21 @@ function formatDate(dateString: string) {
 
 function goBack() {
   router.back();
+}
+
+async function handleDelete() {
+  if (!cart.value) return;
+  if (!confirm("Supprimer ce panier ?")) return;
+
+  isDeleting.value = true;
+  const success = await deletecards(cart.value.id);
+  isDeleting.value = false;
+
+  if (success) {
+    router.push("/");
+  } else {
+    error.value = "Erreur lors de la suppression";
+  }
 }
 
 onMounted(async () => {
