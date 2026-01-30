@@ -1,8 +1,8 @@
 <!-- Auteur : Rayan Chattaoui -->
 <template>
-  <div class="min-h-screen bg-white dark:bg-slate-900">
+  <div class="min-h-screen bg-[#FAFAFA]">
     <!-- Header -->
-    <div class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
+    <div class="bg-white border-b border-slate-200">
       <div class="max-w-6xl mx-auto px-6 py-4">
         <button
           @click="goBack"
@@ -30,7 +30,7 @@
       <!-- Product Detail -->
       <div v-else-if="product" class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <!-- Image -->
-        <div class="bg-white dark:bg-slate-800 rounded-xl p-8 border border-slate-200 dark:border-slate-700">
+        <div class="bg-white rounded-xl p-8 border border-slate-200">
           <img
             :src="product.image"
             :alt="product.title"
@@ -41,15 +41,15 @@
         <!-- Infos -->
         <div class="space-y-6">
           <div>
-            <span class="inline-block text-xs bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-3 py-1 rounded-full mb-3">
+            <span class="inline-block text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full mb-3">
               {{ product.category }}
             </span>
-            <h1 class="text-3xl font-bold text-slate-900 dark:text-white">
+            <h1 class="text-3xl font-bold text-slate-900">
               {{ product.title }}
             </h1>
           </div>
 
-          <p class="text-slate-500 dark:text-slate-400 leading-relaxed">
+          <p class="text-slate-500 leading-relaxed">
             {{ product.description }}
           </p>
 

@@ -118,7 +118,7 @@ function handleAddToCart(product: Product, event: Event) {
             {{ product.title }}
           </h3>
           <p class="mt-2 font-bold">
-            ${{ product.price }}
+            {{ product.price }}€
           </p>
           <button
             @click="handleAddToCart(product, $event)"
@@ -153,7 +153,7 @@ function handleAddToCart(product: Product, event: Event) {
             </h3>
           </div>
           <p class="font-bold">
-            ${{ product.price }}
+            {{ product.price }}€
           </p>
           <button
             @click="handleAddToCart(product, $event)"
