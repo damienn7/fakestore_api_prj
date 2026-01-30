@@ -5,10 +5,18 @@
 import { ref, computed } from "vue";
 import type { CartItem, CartItemWithDetails } from "@/backend/type/shop";
 import { fetchProductById } from "@/backend/service/productapi";
+import {
+  fetchLoggedInUserCartById,
+  fetchLoggedInUserCarts,
+  getStoredUserId,
+} from "@/backend/service/authapi";
+import { updatecards, addcards, deletecards } from "@/backend/service/shopfinal";
 
 const CART_STORAGE_KEY = "fakestore_cart";
+const CART_ID_STORAGE_KEY = "fakestore_cart_id";
 const cartItems = ref<CartItem[]>([]);
 const isInitialized = ref(false);
+const cartId = ref<number | null>(null);
 
 function initializeCart() {
   if (isInitialized.value) return;
@@ -18,9 +26,16 @@ function initializeCart() {
     if (stored) {
       cartItems.value = JSON.parse(stored);
     }
+
+    const storedCartId = localStorage.getItem(CART_ID_STORAGE_KEY);
+    if (storedCartId) {
+      const parsed = Number(storedCartId);
+      cartId.value = Number.isFinite(parsed) ? parsed : null;
+    }
   } catch (error) {
     console.error("Erreur lors du chargement du panier :", error);
     cartItems.value = [];
+    cartId.value = null;
   }
 
   isInitialized.value = true;
@@ -29,6 +44,11 @@ function initializeCart() {
 function saveToStorage() {
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems.value));
+    if (cartId.value !== null) {
+      localStorage.setItem(CART_ID_STORAGE_KEY, String(cartId.value));
+    } else {
+      localStorage.removeItem(CART_ID_STORAGE_KEY);
+    }
   } catch (error) {
     console.error("Erreur lors de la sauvegarde du panier :", error);
   }
@@ -36,6 +56,31 @@ function saveToStorage() {
 
 export function useCart() {
   initializeCart();
+
+  async function syncCartFromApi(): Promise<void> {
+    const userId = getStoredUserId();
+    if (userId === null) return;
+
+    try {
+      const carts = await fetchLoggedInUserCarts();
+      if (carts.length === 0) return;
+
+      const candidateIds = carts.map((c) => c.id).filter((id) => typeof id === "number");
+      const preferredId =
+        cartId.value !== null && candidateIds.includes(cartId.value)
+          ? cartId.value
+          : Math.max(...candidateIds);
+
+      const cart = await fetchLoggedInUserCartById(preferredId);
+      if (!cart) return;
+
+      cartId.value = cart.id;
+      cartItems.value = cart.products;
+      saveToStorage();
+    } catch (error) {
+      console.error("Erreur lors de la synchronisation du panier :", error);
+    }
+  }
 
   const itemCount = computed(() => {
     return cartItems.value.reduce((total, item) => total + item.quantity, 0);
@@ -63,11 +108,15 @@ export function useCart() {
       (item) => item.productId !== productId
     );
     saveToStorage();
+
+    void persistCartToApi();
   }
 
   function clearCart() {
     cartItems.value = [];
     saveToStorage();
+
+    void persistCartToApi();
   }
 
   function updateQuantity(productId: number, quantity: number) {
@@ -80,7 +129,20 @@ export function useCart() {
     if (item) {
       item.quantity = quantity;
       saveToStorage();
+
+      void persistCartToApi();
     }
+  }
+
+  async function persistCartToApi(): Promise<void> {
+    const userId = getStoredUserId();
+    if (userId === null || cartId.value === null) return;
+
+    await updatecards(cartId.value, {
+      userId,
+      date: new Date().toISOString(),
+      products: cartItems.value,
+    });
   }
 
   async function getCartItemsWithDetails(): Promise<CartItemWithDetails[]> {
@@ -118,11 +180,45 @@ export function useCart() {
     return item ? item.quantity : 0;
   }
 
+  async function createCart(products: CartItem[] = []): Promise<number | null> {
+    const userId = getStoredUserId();
+    if (userId === null) return null;
+
+    const newCart = await addcards({
+      userId,
+      date: new Date().toISOString(),
+      products,
+    });
+
+    if (newCart) {
+      cartId.value = newCart.id;
+      cartItems.value = products;
+      saveToStorage();
+      return newCart.id;
+    }
+
+    return null;
+  }
+
+  async function deleteCart(id: number): Promise<boolean> {
+    const success = await deletecards(id);
+
+    if (success && cartId.value === id) {
+      cartId.value = null;
+      cartItems.value = [];
+      saveToStorage();
+    }
+
+    return success;
+  }
+
   return {
     cartItems: computed(() => cartItems.value),
+    cartId: computed(() => cartId.value),
     itemCount,
     isEmpty,
     hasItems,
+    syncCartFromApi,
     addToCart,
     removeFromCart,
     clearCart,
@@ -130,6 +226,8 @@ export function useCart() {
     getCartItemsWithDetails,
     getTotalPrice,
     isInCart,
-    getQuantity
+    getQuantity,
+    createCart,
+    deleteCart
   };
 }

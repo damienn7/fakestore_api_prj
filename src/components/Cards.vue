@@ -1,10 +1,12 @@
 <!-- Auteur : Thomas et Rayan -->
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { fetchProducts } from "@/backend/service/productapi";
 import type { Product } from "@/backend/type/products";
-import Details from "@/components/details.vue";
 import { useCart } from "@/composables/useCart";
+
+const router = useRouter();
 
 /**
  * State
@@ -12,12 +14,6 @@ import { useCart } from "@/composables/useCart";
 const viewMode = ref<"grid" | "list">("grid");
 const products = ref<Product[]>([]);
 const isLoading = ref(true);
-
-/**
- * Modal state
- */
-const selectedProductId = ref<number | null>(null);
-const isDetailsOpen = ref(false);
 
 const { addToCart } = useCart();
 
@@ -36,13 +32,7 @@ onMounted(async () => {
  * Methods
  */
 const openDetails = (id: number) => {
-  selectedProductId.value = id;
-  isDetailsOpen.value = true;
-};
-
-const closeDetails = () => {
-  isDetailsOpen.value = false;
-  selectedProductId.value = null;
+  router.push(`/product/${id}`);
 };
 
 function handleAddToCart(product: Product, event: Event) {
@@ -128,7 +118,7 @@ function handleAddToCart(product: Product, event: Event) {
             {{ product.title }}
           </h3>
           <p class="mt-2 font-bold">
-            ${{ product.price }}
+            {{ product.price }}€
           </p>
           <button
             @click="handleAddToCart(product, $event)"
@@ -163,7 +153,7 @@ function handleAddToCart(product: Product, event: Event) {
             </h3>
           </div>
           <p class="font-bold">
-            ${{ product.price }}
+            {{ product.price }}€
           </p>
           <button
             @click="handleAddToCart(product, $event)"
@@ -178,11 +168,5 @@ function handleAddToCart(product: Product, event: Event) {
       </div>
     </div>
 
-    <!-- DETAILS MODAL -->
-    <Details
-      :open="isDetailsOpen"
-      :product-id="selectedProductId"
-      @close="closeDetails"
-    />
   </section>
 </template>

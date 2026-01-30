@@ -20,6 +20,7 @@ const {
   clearCart,
   getCartItemsWithDetails,
   getTotalPrice,
+  syncCartFromApi,
 } = useCart();
 
 const cartItemsWithDetails = ref<CartItemWithDetails[]>([]);
@@ -32,6 +33,7 @@ watch(
     if (!isOpen) return;
     isLoading.value = true;
     try {
+      await syncCartFromApi();
       cartItemsWithDetails.value = await getCartItemsWithDetails();
       totalPrice.value = await getTotalPrice();
     } catch (error) {
@@ -75,7 +77,7 @@ function handleClearCart() {
 }
 
 function handleCheckout() {
-  alert(`Checkout: ${itemCount.value} articles - Total: $${totalPrice.value.toFixed(2)}`);
+  alert(`Checkout: ${itemCount.value} articles - Total: ${totalPrice.value.toFixed(2)}€`);
 }
 </script>
 
@@ -107,7 +109,7 @@ function handleCheckout() {
             <div class="flex-1 min-w-0">
               <h3 class="font-semibold text-sm text-[#0d141c] mb-1 truncate">{{ item.title }}</h3>
               <p class="text-xs text-slate-500 mb-2">{{ item.category }}</p>
-              <p class="font-bold text-sm">\${{ item.price.toFixed(2) }}</p>
+              <p class="font-bold text-sm">{{ item.price.toFixed(2) }}€</p>
             </div>
             <div class="flex flex-col items-end justify-between">
               <button @click="removeItem(item.productId)" class="text-slate-400 hover:text-red-500 transition">
@@ -130,7 +132,7 @@ function handleCheckout() {
       <div v-if="!isEmpty && !isLoading" class="border-t border-slate-200 px-6 py-4 space-y-4">
         <div class="flex items-center justify-between">
           <span class="text-lg font-semibold text-[#0d141c]">Total</span>
-          <span class="text-2xl font-bold text-primary">\${{ totalPrice.toFixed(2) }}</span>
+          <span class="text-2xl font-bold text-primary">{{ totalPrice.toFixed(2) }}€</span>
         </div>
         <div class="space-y-2">
           <button @click="handleCheckout" class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary/90 transition">
