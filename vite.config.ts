@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/fakestore_api_prj/',
+  base: '/',
   plugins: [
     vue(),
     vueDevTools(),
